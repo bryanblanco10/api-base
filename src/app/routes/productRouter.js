@@ -1,5 +1,9 @@
 import { Router } from "express";
-import { validatorMiddleware, authMiddleware } from "../middlewares";
+import {
+  validatorMiddleware,
+  authMiddleware,
+  uploadMiddleware,
+} from "../middlewares";
 import { registerProductValidator } from "../middlewares/validators";
 export function ProductRoutes({ ProductController }) {
   const router = Router();
@@ -34,6 +38,13 @@ export function ProductRoutes({ ProductController }) {
     "/:uuid",
     [authMiddleware],
     ProductController.delete.bind(ProductController)
+  );
+
+  router.post(
+    "/upload-image",
+    [authMiddleware],
+    uploadMiddleware.single("image"),
+    ProductController.uploadImagen.bind(ProductController)
   );
 
   return router;
