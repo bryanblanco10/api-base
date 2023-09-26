@@ -13,4 +13,12 @@ export class ProductController extends BaseController {
 
     res.status(201).send({ message: "Uploaded image" });
   }
+
+  async deleteImagen(req, res) {
+    const { path } = req.params;
+
+    await this._productService.deleteImagen(path);
+
+    res.status(201).send({ message: "Delete image" });
+  }
 }

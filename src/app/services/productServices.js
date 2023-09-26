@@ -36,4 +36,9 @@ export class ProductService extends BaseService {
 
     return;
   }
+
+  async deleteImagen(path) {
+    // Eliminar la imagen del servidor
+    await fs.unlink(`public/upload/temp/${path}`);
+  }
 }

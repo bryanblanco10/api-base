@@ -42,9 +42,15 @@ export function ProductRoutes({ ProductController }) {
 
   router.post(
     "/upload-image",
-    [authMiddleware],
+    // [authMiddleware],
     uploadMiddleware.single("image"),
     ProductController.uploadImagen.bind(ProductController)
+  );
+
+  router.delete(
+    "/delete-image/:path",
+    // [authMiddleware],
+    ProductController.deleteImagen.bind(ProductController)
   );
 
   return router;

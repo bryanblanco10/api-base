@@ -1,8 +1,13 @@
 import { Router } from "express";
 import bodyParser from "body-parser";
 import helmet from "helmet";
+import cors from "cors";
 import "express-async-errors";
-import { errorMiddleware, notFoundMiddleware } from "../middlewares";
+import {
+  errorMiddleware,
+  notFoundMiddleware,
+  optionsCors,
+} from "../middlewares";
 
 export function Routes({ AuthRoutes, CategoryRoutes, ProductRoutes }) {
   const router = Router();
