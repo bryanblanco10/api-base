@@ -11,13 +11,13 @@ export function ProductRoutes({ ProductController }) {
   router.get(
     "/",
     [authMiddleware],
-    ProductController.getAll.bind(ProductController)
+    ProductController.getAllEnterprise.bind(ProductController)
   );
 
   router.get(
     "/:uuid",
     [authMiddleware],
-    ProductController.get.bind(ProductController)
+    ProductController.getProduct.bind(ProductController)
   );
 
   router.post(
@@ -41,15 +41,15 @@ export function ProductRoutes({ ProductController }) {
   );
 
   router.post(
-    "/upload-image",
-    // [authMiddleware],
+    "/upload-image/:uuid/:uuidImageProduct",
+    [authMiddleware],
     uploadMiddleware.single("image"),
     ProductController.uploadImagen.bind(ProductController)
   );
 
   router.delete(
     "/delete-image/:path",
-    // [authMiddleware],
+    [authMiddleware],
     ProductController.deleteImagen.bind(ProductController)
   );
 

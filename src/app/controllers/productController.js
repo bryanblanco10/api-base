@@ -6,12 +6,26 @@ export class ProductController extends BaseController {
     this._productService = ProductService;
   }
 
+  async getAllEnterprise(req, res) {
+    const products = await this._productService.getAllEnterprise();
+
+    res.status(200).send(products);
+  }
+
+  async getProduct(req, res) {
+    const { uuid } = req.params;
+    const product = await this._productService.getProduct(uuid);
+
+    res.status(200).send(product);
+  }
+
   async uploadImagen(req, res) {
     const { file } = req;
+    const { uuid, uuidImageProduct } = req.params;
 
-    await this._productService.uploadImagen(file);
+    await this._productService.uploadImagen(file, uuid, uuidImageProduct);
 
-    res.status(201).send({ message: "Uploaded image" });
+    res.status(200).send({ message: "Uploaded image" });
   }
 
   async deleteImagen(req, res) {
@@ -19,6 +33,6 @@ export class ProductController extends BaseController {
 
     await this._productService.deleteImagen(path);
 
-    res.status(201).send({ message: "Delete image" });
+    res.status(200).send({ message: "Delete image" });
   }
 }

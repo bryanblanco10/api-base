@@ -7,8 +7,8 @@ module.exports = {
       {
         uuid: "637de8e8-5659-4065-ad44-8c60a5bdacf5",
         fullname: "Bryan Blanco Villero",
-        username: "bryanbv10",
-        password: bcrypt.hashSync("Barcelona10", salt),
+        username: "1104873096",
+        password: bcrypt.hashSync("1104873096", salt),
         createdAt: new Date(),
         updatedAt: new Date(),
       },

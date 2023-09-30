@@ -21,7 +21,7 @@ class BaseController {
     const { body } = req;
     const data = await this._service.create(body);
 
-    res.status(200).send(data);
+    res.status(201).send(data);
   }
 
   async update(req, res) {
@@ -30,7 +30,7 @@ class BaseController {
 
     await this._service.update(uuid, body);
 
-    res.status(201).send({ message: "Updated record" });
+    res.status(200).send({ message: "Updated record" });
   }
 
   async delete(req, res) {
@@ -38,7 +38,7 @@ class BaseController {
 
     await this._service.delete(uuid);
 
-    res.status(201).send({ message: "Record deleted" });
+    res.status(200).send({ message: "Record deleted" });
   }
 }
 

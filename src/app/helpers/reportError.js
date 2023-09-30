@@ -6,10 +6,10 @@ export function reportError(option) {
       generateError(constants.STATUS_422, "User is registered");
       break;
     case constants.ERROR_USER:
-      generateError(constants.STATUS_422, "User not registered");
+      generateError(constants.STATUS_422, "Usuario no registrado");
       break;
     case constants.LOGIN:
-      generateError(constants.STATUS_422, "Wrong email or password!");
+      generateError(constants.STATUS_422, "Usuario o contraseña incorrectos!");
       break;
     case constants.USERNAME:
       generateError(constants.STATUS_422, constants.USERNAME);

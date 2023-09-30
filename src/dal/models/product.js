@@ -21,12 +21,25 @@ const ProductSchema = {
   price: {
     type: DataTypes.STRING,
   },
+  pricePromotion: {
+    type: DataTypes.STRING,
+  },
   description: {
     type: DataTypes.TEXT,
   },
-  status: {
+  statusProduct: {
     type: DataTypes.STRING,
     allowNull: false,
+  },
+  statusPromotion: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: true,
+  },
+  status: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
   },
   categoryUuid: {
     type: DataTypes.UUID,
@@ -52,10 +65,14 @@ const ProductSchema = {
   },
 };
 class Product extends Model {
-  static associate({ Category }) {
+  static associate({ Category, ImageProduct }) {
     this.belongsTo(Category, {
       foreignKey: "categoryUuid",
       as: "category",
+    });
+    this.hasMany(ImageProduct, {
+      foreignKey: "productUuid",
+      as: "imageProduct",
     });
   }
 

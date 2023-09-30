@@ -28,6 +28,7 @@ import {
   UserRepository,
   CategoryRepository,
   ProductRepository,
+  ImageProductRepository,
 } from "../dal/repositories";
 /* Routes */
 import { Routes } from "./routes";
@@ -64,6 +65,7 @@ container
     UserRepository: asClass(UserRepository).singleton(),
     CategoryRepository: asClass(CategoryRepository).singleton(),
     ProductRepository: asClass(ProductRepository).singleton(),
+    ImageProductRepository: asClass(ImageProductRepository).singleton(),
   })
   .register({
     AuthRoutes: asFunction(AuthRoutes).singleton(),

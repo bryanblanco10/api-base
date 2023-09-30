@@ -1,44 +1,59 @@
 import { BaseService } from "./baseServices";
 import Path from "path";
 import fs from "fs-extra";
+import { reportError, constants } from "../helpers";
 export class ProductService extends BaseService {
-  constructor({ ProductRepository }) {
+  constructor({ ProductRepository, ImageProductRepository }) {
     super(ProductRepository);
     this._productRepository = ProductRepository;
+    this._imageProductRepository = ImageProductRepository;
   }
 
-  async uploadImagen(file, body) {
-    const { originalname, path } = file;
-    // const { nit, enterpriseUuid } = body;
-    // const ext = Path.extname(originalname).toLowerCase();
-    // const filename = nit + ext;
-    console.log(originalname, path);
-    // if (ext == ".png" || ext == ".jpg" || ext == ".jpeg") {
-    //   // await optimizeImg(path, filename, 150);
-    //   // const newPath = `public/upload/${filename}`
-    //   // Validar si la enterprise tiene una photo save
-    //   // const hasEnterprise = await this._enterpriseRepository.get(
-    //   //   enterpriseUuid
-    //   // );
-    //   // const hasPhoto = await this.getPhoto(hasEnterprise.photo);
-    //   // if (hasPhoto) await this.deletePhoto(hasEnterprise.photo)
-    //   // await uploadToBucket("s3-bucket-guiia-tour", newPath, filename);
-    //   // await fs.unlink(path);
-    //   // await fs.unlink(newPath);
-    //   // await this._productRepository.update(enterpriseUuid, {
-    //   //   photo: filename,
-    //   // });
-    // } else {
-    //   // Eliminar la imagen del servidor
-    //   await fs.unlink(path);
-    //   reportError(constants.FORMAT_IMAGE_INVALID);
-    // }
-
-    return;
+  async getAllEnterprise() {
+    return await this._productRepository.getAllEnterprise();
   }
 
-  async deleteImagen(path) {
-    // Eliminar la imagen del servidor
-    await fs.unlink(`public/upload/temp/${path}`);
+  async getProduct(uuid) {
+    return await this._productRepository.getProduct(uuid);
+  }
+
+  async uploadImagen(file, productUuid, uuidImageProduct) {
+    const { originalname } = file;
+    const ext = Path.extname(originalname).toLowerCase();
+
+    if (uuidImageProduct) {
+      const imageProduct = await this._imageProductRepository.get(
+        uuidImageProduct
+      );
+
+      if (imageProduct) {
+        this.deleteImagen(imageProduct?.name);
+      }
+    }
+
+    if (ext == ".png" || ext == ".jpg" || ext == ".jpeg") {
+      await this._imageProductRepository.create({
+        name: originalname,
+        productUuid,
+      });
+    } else {
+      // Eliminar la imagen del servidor
+      await fs.unlink(`public/upload/${originalname}`);
+      reportError(constants.FORMAT_IMAGE_INVALID);
+    }
+  }
+
+  async deleteImagen(name) {
+    const imageProduct =
+      await this._imageProductRepository.getImageProductByName(name);
+
+    if (imageProduct) {
+      await this._imageProductRepository.update(imageProduct?.uuid, {
+        status: false,
+        deleteAt: new Date(),
+      });
+      // Eliminar la imagen del servidor
+      await fs.unlink(`public/upload/${name}`);
+    }
   }
 }
